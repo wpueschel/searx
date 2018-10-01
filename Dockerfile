@@ -1,13 +1,13 @@
 FROM alpine:3.8
-LABEL maintainer="searx <https://github.com/asciimoo/searx>"
-LABEL description="A privacy-respecting, hackable metasearch engine."
+MAINTAINER searx <https://github.com/asciimoo/searx>
+LABEL description "A privacy-respecting, hackable metasearch engine."
 
 ENV BASE_URL=False IMAGE_PROXY=False
 EXPOSE 8888
 WORKDIR /usr/local/searx
 CMD ["/sbin/tini","--","/usr/local/searx/run.sh"]
 
-RUN adduser -D -h /usr/local/searx -s /bin/sh searx searx \
+RUN adduser -D -h /usr/local/searx -u 3001 -s /bin/sh searx searx \
  && echo '#!/bin/sh' >> run.sh \
  && echo 'sed -i "s|base_url : False|base_url : $BASE_URL|g" searx/settings.yml' >> run.sh \
  && echo 'sed -i "s/image_proxy : False/image_proxy : $IMAGE_PROXY/g" searx/settings.yml' >> run.sh \
